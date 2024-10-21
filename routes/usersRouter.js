@@ -1,7 +1,7 @@
 const usersRouter = require('express').Router();
 
 //( CONTROLLERS )
-const UsrController = require('../controllers/userController');
+const UserController = require('../controllers/userController');
 const Middleware = require('../middleware/auth-middleware');
 
 
@@ -15,7 +15,7 @@ usersRouter.post("/users", async (req, res) => {
   let password = req.body.password;
 
   try {
-    const result = await UsrController.addUser(name, lastname, email, isActive, password);
+    const result = await UserController.addUser(name, lastname, email, isActive, password);
     if (result) {
       res.status(201).send("Usuario creado correctamente"); // 201
     } else {
@@ -34,7 +34,7 @@ usersRouter.get("/users", Middleware.verify, async (req, res) => {
   let offset = req.query.offset;
 
   try {
-    const results = await UsrController.getAllUsers(limit, offset);
+    const results = await UserController.getAllUsers(limit, offset);
     res.status(200).json(results);
 
   } catch (error) {
@@ -48,7 +48,7 @@ usersRouter.get("/users", Middleware.verify, async (req, res) => {
 usersRouter.get("/users/me", Middleware.verify, async (req, res) => {
   let userId = req.token.userId;
   try {
-    const results = await UsrController.getUser(userId);
+    const results = await UserController.getUser(userId);
     res.status(200).json(results);
 
   } catch (error) {
@@ -62,7 +62,7 @@ usersRouter.get("/users/me", Middleware.verify, async (req, res) => {
 usersRouter.get("/users/:id", Middleware.verify, async (req, res) => {
 
   try {
-    const results = await UsrController.getUser(req.params.id);
+    const results = await UserController.getUser(req.params.id);
     res.status(200).json(results);
 
   } catch (error) {
@@ -81,7 +81,7 @@ usersRouter.put("/users/:id", Middleware.verify, async (req, res) => {
   console.log(user);
   try {
 
-    const result = await UsrController.editUser(user);
+    const result = await UserController.editUser(user);
     if (result) {
       res.status(200).json(result);
     } else {
@@ -99,7 +99,7 @@ usersRouter.delete("/users/:id", Middleware.verify, async (req, res) => {
 
   try {
 
-    const result = await UsrController.deleteUser(req.params.id);
+    const result = await UserController.deleteUser(req.params.id);
     if (result) {
       res.status(200).send("Usuario borrado.")
     } else {

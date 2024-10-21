@@ -1,17 +1,17 @@
 require('mongoose');
-const Usr = require('../models/userModel');
+const User = require('../models/userModel');
 
 
 const getAllUsers = async (limit,offset) => {
 
-    const users = await Usr.find({}).limit(limit).skip(offset).populate('bets');
+    const users = await User.find({}).limit(limit).skip(offset).populate('bets');
 
     return users;
 }
 
 const getUser = async(id) => {
 
-    const user = await Usr.findById(id).populate('bets');;
+    const user = await User.findById(id).populate('bets');;
     
     return user;
 }
@@ -19,7 +19,7 @@ const getUser = async(id) => {
 
 const addUser = async (name,lastname,email,isActive,password) => {
 
-    let existUser = await Usr.findOne({ email: email });
+    let existUser = await User.findOne({ email: email });
    
     if(!existUser) {
 
@@ -28,7 +28,7 @@ const addUser = async (name,lastname,email,isActive,password) => {
         .update(password)
         .digest('hex');
         
-        const usr = new Usr(
+        const newUser = new User(
             {              
                 name: name,
                 lastname:lastname,
@@ -38,7 +38,7 @@ const addUser = async (name,lastname,email,isActive,password) => {
             }
         );
 
-        let user = await usr.save(); 
+        let user = await newUser.save(); 
         console.log("usuario nuevo");
         console.log(user);
         return { user }; 
@@ -51,7 +51,7 @@ const addUser = async (name,lastname,email,isActive,password) => {
 
 const editUser = async(user) => {
 
-    const result = await Usr.findByIdAndUpdate(user._id,user,{new:true});
+    const result = await User.findByIdAndUpdate(user._id,user,{new:true});
 
     return result;
 }
@@ -59,7 +59,7 @@ const editUser = async(user) => {
 
 const editRoles = async(roles,id) => {
 
-    const result = await Usr.findByIdAndUpdate(id,{$set:{roles:roles}},{new:true});
+    const result = await User.findByIdAndUpdate(id,{$set:{roles:roles}},{new:true});
 
     return result;
 }
@@ -67,7 +67,7 @@ const editRoles = async(roles,id) => {
 
 const deleteUser = async(id) => {
 
-    const result = await Usr.findByIdAndDelete(id);
+    const result = await User.findByIdAndDelete(id);
 
     return result;
 }

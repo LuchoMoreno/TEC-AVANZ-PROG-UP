@@ -18,8 +18,8 @@ const horseSchema = new Schema({
 	breed:{ type: String, required:true
     },
 
-	wins:{ type: String, required:true, default: ['0']
-	},
+	wins: {type: Number, required: true, default: 0
+	}
 	
 }, { timestamps: true } ).set('toJSON',{
     transform: (document, object) => {

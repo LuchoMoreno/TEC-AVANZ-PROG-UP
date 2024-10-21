@@ -17,11 +17,11 @@ const getAllHorses = async (limit, offset) => {
   return horses;
 }
 
-const addHorse = async (name, age, sex, weight, breed, wins) => {
+const addHorse = async (name, age, sex, weight, breed) => {
 
   // Se utiliza object shorthand en JavaScript, ya que los nombres de las variables y las propiedades son iguales
   // const horse = new Horse({ name: name, age: age, sex: sex, weight: weight, breed: breed, wins: wins});
-  const horse = new Horse({ name, age, sex, weight, breed, wins });
+  const horse = new Horse({name, age, sex, weight, breed});
 
   let savedHorse = await horse.save();
 

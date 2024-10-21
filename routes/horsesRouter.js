@@ -13,10 +13,9 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
     let sex = req.body.sex;
     let weight = req.body.weight;
     let breed = req.body.breed;
-    let wins = req.body.wins;
 
     try{
-      const result = await HorseController.addHorse(name,age,sex,weight,breed,wins);
+      const result = await HorseController.addHorse(name,age,sex,weight,breed);
       
       if(result){
         res.status(201).send("Caballo agregado correctamente"); // 201

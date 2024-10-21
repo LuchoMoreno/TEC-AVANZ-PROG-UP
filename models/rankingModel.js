@@ -3,16 +3,10 @@ const Schema = mongoose.Schema;
 
 const rankingSchema = new Schema({
   
-  horse: {
-    type: String,
-    required: true,
-    unique: true
+  horse: { type: String, required: true, unique: true
   },
   
-  winnings: {
-    type: Number,
-    required: true,
-    default: 0
+  winnings: { type: Number, required: true, default: 0
   }
   
 });

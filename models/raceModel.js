@@ -21,9 +21,9 @@ const raceSchema = new Schema({
 	winner:{ type: String, required:true
 	},
 
-    // programada, en curso, finalizada.
-    status:{ type: String, required:true
-	},
+    // Programada, En curso, Finalizada.
+    status: { type: String, required:true, default: 'Programada'
+    },
 
     horses:[{ type: Schema.Types.ObjectId, ref: 'horses' } 
     ], // Array de referencias a caballos

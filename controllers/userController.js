@@ -4,15 +4,16 @@ const User = require('../models/userModel');
 
 const getAllUsers = async (limit,offset) => {
 
-    const users = await User.find({}).limit(limit).skip(offset).populate('bets');
-
+    //const users = await User.find({}).limit(limit).skip(offset).populate('bets');
+    const users = await User.find({}).limit(limit).skip(offset);
     return users;
 }
 
 const getUser = async(id) => {
 
-    const user = await User.findById(id).populate('bets');;
-    
+    //const user = await User.findById(id).populate('bets');
+    const user = await User.findById(id);
+
     return user;
 }
 

@@ -20,6 +20,7 @@ app.use(express.json());
 const authRouter = require('./routes/authRouter');
 const betsRouter = require('./routes/betsRouter');
 const horsesRouter = require('./routes/horsesRouter');
+const racesRouter = require('./routes/racesRouter');
 const rankingRouter = require('./routes/rankingRouter');
 const usersRouter = require('./routes/usersRouter');
 
@@ -28,6 +29,7 @@ const usersRouter = require('./routes/usersRouter');
 app.use('/api/auth', authRouter);
 app.use('/api', betsRouter);
 app.use('/api', horsesRouter);
+app.use('/api', racesRouter);
 app.use('/api', rankingRouter);
 app.use('/api', usersRouter);
 

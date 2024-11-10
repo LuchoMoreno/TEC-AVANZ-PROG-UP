@@ -13,7 +13,7 @@ const verify = (req,res,next) =>{
         next();
 
     }catch(error){
-        res.status(401).send("No autorizado");
+        res.status(401).send("El token es invalido. No autorizado.");
     }    
 }
 

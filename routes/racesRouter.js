@@ -14,7 +14,7 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
     if (userRole !== 'admin') {
         return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
     }
-  
+    
     let name = req.body.name;
     let location = req.body.location;
     let startDate = new Date(req.body.startDate); // Convierte la fecha a tipo Date
@@ -22,27 +22,15 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
     let prize = req.body.prize;
     let horses = req.body.horses;
 
-    // Validar que la fecha de inicio sea en el futuro
-    if (startDate <= new Date()) {
-        return res.status(400).send("La fecha de inicio debe ser en el futuro.");
-    }
-
     try{
 
       const result = await RaceController.addRace(name, location, startDate, distance, prize, horses);
-      
-      if(result){
-        res.status(201).send("Carrera creada correctamente. La misma tendrá inicio el día: " + startDate); // 201
-      }
-      else
-      {
-        res.status(404).send("Ha ocurrido un error al crear la carrera. Carrera duplicada."); // 404
-      }
-      
-    }catch(error){
-      console.log(error);
-      res.status(500).send("Error al crear la carrera"); //500
-    }  
+      res.status(201).send(`Carrera creada correctamente. La misma tendrá inicio el día: ${startDate}`); // 201 Created
+
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
     
   });
   

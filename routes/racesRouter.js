@@ -7,6 +7,13 @@ const Middleware = require('../middleware/auth-middleware');
 
 // Creo una nueva carrera
 racesRouter.post("/races", Middleware.verify, async (req,res) =>{
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+    }
   
     let name = req.body.name;
     let location = req.body.location;
@@ -36,6 +43,13 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
 
   // Elimino una carrera
   racesRouter.delete("/races/:id", Middleware.verify, async(req,res) =>{
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+    }
   
     try{
   
@@ -54,6 +68,7 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
   
   // Get de todas las carreras (ESTE METODO ES PÚBLICO) 
   racesRouter.get("/races", async (req, res) => {
+    
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
 

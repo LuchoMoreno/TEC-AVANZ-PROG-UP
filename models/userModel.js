@@ -15,9 +15,9 @@ const usrSchema = new Schema({
 	isActive:{ type: Boolean, required:true
 	},
 	
-	roles:{ type: Array, required:true, default: ['user']
+	roles:{ type: String, required:true, default: 'user'
 	},
-	
+
 	password:{ type: String, required:true
 	},
 

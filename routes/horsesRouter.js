@@ -7,6 +7,13 @@ const Middleware = require('../middleware/auth-middleware');
 
 // Creo un nuevo caballo
 horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+    }
     
     let name = req.body.name;
     let age = req.body.age;
@@ -35,6 +42,13 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
 
   // Elimino un caballo
   horsesRouter.delete("/horses/:id", Middleware.verify, async(req,res) =>{
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+    }
   
     try{
 
@@ -54,6 +68,7 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
   
   // Get de todos los caballos (ESTE METODO ES PÚBLICO) 
   horsesRouter.get("/horses", async (req, res) => {
+    
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
 

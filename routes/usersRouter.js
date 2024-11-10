@@ -30,6 +30,13 @@ usersRouter.post("/users", async (req, res) => {
 
 usersRouter.get("/users", Middleware.verify, async (req, res) => {
 
+  let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+  }
+
   let limit = req.query.limit;
   let offset = req.query.offset;
 
@@ -61,6 +68,13 @@ usersRouter.get("/users/me", Middleware.verify, async (req, res) => {
 // Obtengo un usuario por ID
 usersRouter.get("/users/:id", Middleware.verify, async (req, res) => {
 
+  let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+  }
+
   try {
     const results = await UserController.getUser(req.params.id);
     res.status(200).json(results);
@@ -74,6 +88,13 @@ usersRouter.get("/users/:id", Middleware.verify, async (req, res) => {
 
 // Modifico un usuario
 usersRouter.put("/users/:id", Middleware.verify, async (req, res) => {
+
+  let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+  }
 
   const user = { _id: req.params.id, ...req.body };
   // {_id: req.params.id, name: req.body.name, lastname, email }
@@ -96,6 +117,13 @@ usersRouter.put("/users/:id", Middleware.verify, async (req, res) => {
 
 // Elimino un usuario
 usersRouter.delete("/users/:id", Middleware.verify, async (req, res) => {
+
+  let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+  }
 
   try {
 

@@ -17,13 +17,19 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
   
     let name = req.body.name;
     let location = req.body.location;
-    let startDate = req.body.startDate;
+    let startDate = new Date(req.body.startDate); // Convierte la fecha a tipo Date
     let distance = req.body.distance;
+    let prize = req.body.prize;
     let horses = req.body.horses;
+
+    // Validar que la fecha de inicio sea en el futuro
+    if (startDate <= new Date()) {
+        return res.status(400).send("La fecha de inicio debe ser en el futuro.");
+    }
 
     try{
 
-      const result = await RaceController.addRace(name, location, startDate, distance, horses);
+      const result = await RaceController.addRace(name, location, startDate, distance, prize, horses);
       
       if(result){
         res.status(201).send("Carrera creada correctamente. La misma tendrá inicio el día: " + startDate); // 201

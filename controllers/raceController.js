@@ -17,10 +17,10 @@ const getAllRaces = async (limit, offset) => {
   return races;
 }
 
-const addRace = async (name, location, startDate, distance, horses) => {
+const addRace = async (name, location, startDate, distance, prize, horses) => {
 
   // Se utiliza object shorthand en JavaScript, ya que los nombres de las variables y las propiedades son iguales
-  const race = new Race({name, location, startDate, distance, horses});
+  const race = new Race({name, location, startDate, distance, prize, horses});
 
   let savedRace = await race.save();
 

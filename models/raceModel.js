@@ -18,7 +18,7 @@ const raceSchema = new Schema({
 	prize:{ type: String, required:true
     },
 
-	winner:{ type: String, required:true, default: null
+	winner:{ type: String, default: null
 	},
 
     // Programada, En curso, Finalizada.

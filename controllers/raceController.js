@@ -82,36 +82,40 @@ const checkTotalRaces = async () => {
 
 
 const getRaceHorsePayouts = async (raceId) => {
-  // Verifica que la carrera exista
-  const race = await Race.findById(raceId);
-  if (!race) {
-      const error = new Error("Carrera no encontrada.");
-      error.statusCode = 404;
-      throw error;
+
+  // Verifica si la id de la carrera es valida
+  if (!mongoose.Types.ObjectId.isValid(raceId)) {
+      throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
   }
 
-  // Encuentra todas las apuestas relacionadas con esta carrera
-  const bets = await Bet.find({ race: raceId }).populate('horse', 'name');
+  // Verifica que la carrera exista
+  const race = await Race.findById(raceId).populate('horses', 'name');
+  if (!race) {
+      throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
+  }
 
-  // Agrupa las apuestas por caballo y calcula el payout
-  const horsePayouts = {};
-  bets.forEach(bet => {
-      const horseId = bet.horse._id;
-      if (!horsePayouts[horseId]) {
-          horsePayouts[horseId] = {
-              name: bet.horse.name,
-              betCount: 0,
-              basePayout: bet.amount, // toma el amount original
-          };
-      }
-      horsePayouts[horseId].betCount += 1;
+  // Encuentra todas las apuestas de esta carrera y agrupa por caballo
+  const bets = await Bet.find({ race: raceId });
+  const betsByHorse = bets.reduce((acc, bet) => {
+      if (!acc[bet.horse]) acc[bet.horse] = [];
+      acc[bet.horse].push(bet);
+      return acc;
+  }, {});
+
+  // Calcula el payout de cada caballo
+  const horsePayouts = race.horses.map(horse => {
+      const betCount = betsByHorse[horse._id]?.length || 0;
+      const basePayout = 100; // Asigna un valor base para el cálculo de payout
+      const payout = basePayout * (2 / (1 + betCount)); // Ajuste de payout
+
+      return {
+          horse: horse.name,
+          payout,
+          betCount,
+      };
   });
 
-  // Calcula el payout ajustado en función de la cantidad de apuestas
-  return Object.values(horsePayouts).map(horse => ({
-      horse: horse.name,
-      payout: horse.basePayout * (2 / (1 + horse.betCount)) // Fórmula de ejemplo
-  }));
+  return horsePayouts;
 };
 
 module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces, getRaceHorsePayouts }

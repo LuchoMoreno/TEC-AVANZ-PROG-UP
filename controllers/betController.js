@@ -4,6 +4,8 @@ const Bet = require('../models/betModel');
 const Horse = require('../models/horseModel');
 const Race = require('../models/raceModel');
 
+const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
+
 
 const getBet = async (id) => {
 
@@ -22,15 +24,24 @@ const getAllBets = async (limit, offset) => {
 const addBet = async (user, race, horse, amount) => {
 
   // Buscar la apuesta por su ID
-  const horseParam = await Horse.findById(id);
-  const raceParam = await Race.findById(id);
+  const horseParam = await Horse.findById(horse);
+  const raceParam = await Race.findById(race);
 
-  if (!horseParam || !raceParam) {
-      return false; // Si el caballo o la carrera no existe retorno false.
+  if (!horseParam) {
+    throw new NotFoundError("Caballo no encontrado"); // Si el caballo no existe lanzo excepcion.
   }
 
-  // El payout se ejecuta en base a las posibilidades.
-  let payout = amount * 2;
+  if (!raceParam) {
+    throw new NotFoundError("Carrera no encontrada"); // Si la carrera no existe lanzo excepcion.
+  }
+
+  // Calcula el número de apuestas existentes para el mismo caballo en la misma carrera
+  const existingBets = await Bet.find({ race: race, horse: horse });
+  const betCount = existingBets.length;
+
+  // Calcula payout: cuanto mayor sea el número de apuestas en este caballo, menor es el payout
+  // Fórmula de ejemplo: payout = amount * (2 / (1 + betCount))
+  const payout = amount * (2 / (1 + betCount));
 
   // Se utiliza object shorthand en JavaScript, ya que los nombres de las variables y las propiedades son iguales
   const bet = new Bet({user, race, horse, amount, payout});

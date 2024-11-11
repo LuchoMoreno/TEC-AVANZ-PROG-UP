@@ -19,7 +19,7 @@ const betSchema = new Schema({
     },
 
     // pendiente - ganada - perdida
-    status: { type: Date, required:true, default: 'Pendiente'
+    status: { type: String, required:true, default: 'Pendiente'
     },
 
     betDate: { 

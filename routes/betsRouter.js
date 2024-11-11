@@ -14,21 +14,16 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
     let amount = req.body.amount;
 
     try{
+
       const result = await BetController.addBet(user,race,horse,amount);
+      console.log(result);
+      res.status(201).send(`Carrera cargada correctamente. Los posibles ingresos de la apuesta seran: ${result.savedBet.payout}`); // 201
       
-      if(result){
-        res.status(201).send("Apuesta cargada correctamente."); // 201
-      }
-      else
-      {
-        res.status(404).send("Ha ocurrido un error al cargar la apuesta. Carrera o caballo invalido."); // 404
-      }
-      
-    }catch(error){
-      console.log(error);
-      res.status(500).send("Error al cargar la apuesta."); //500
-    }  
-    
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
+  
   });
   
 
@@ -44,6 +39,7 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
       const statusCode = error.statusCode || 500;
       res.status(statusCode).send(error.message);
   } 
+
   });
   
   
@@ -54,7 +50,7 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
 
     try {
       const results = await BetController.getAllBets(limit, offset);
-      const totalBets = await BetController.checkTotalBets(); // Obtén el conteo total de apuestas.
+      const totalBets = await BetController.checkTotalBets(); // Obtiene el conteo total de apuestas.
       
       // Enviar un objeto JSON que contiene tanto la data como el total de apuestas.
       res.status(200).json({

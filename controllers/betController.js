@@ -42,13 +42,16 @@ const addBet = async (user, race, horse, amount) => {
 
 
 const deleteBet = async (id) => {
-  try {
-
-    // Buscar la apuesta por su ID
+  
+    // Verifica si el id de la apuesta es valida
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new NotAcceptableError("El ID de la apuesta proporcionada no es válida.");
+    }
+    
+    // Verifica si la apuesta existe
     const bet = await Bet.findById(id);
-
-    if (!bet) {
-      return false; // Si la apuesta no existe, retornar false
+    if (!bet) { 
+        throw new NotFoundError("No existe ninguna apuesta registrada con ese ID.");
     }
 
     // Eliminar la apuesta
@@ -56,11 +59,6 @@ const deleteBet = async (id) => {
 
     return true;
 
-  } catch (error) {
-    console.error("Error al eliminar la apuesta:", error);
-    
-    return false;
-  }
 };
 
 

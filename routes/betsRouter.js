@@ -36,17 +36,14 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
   betsRouter.delete("/bets/:id", Middleware.verify, async(req,res) =>{
   
     try{
-  
+
       const result = await BetController.deleteBet(req.params.id);
-      if(result){
-        res.status(200).send("Apuesta borrada.")
-      }else{
-        res.status(404).send("La apuesta no existe.")
-      }  
-  
-    }catch(error){
-      res.status(500).send("Error al borrar la apuesta.")
-    }
+      res.status(200).send("Apuesta borrada con éxito.")
+      
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
   });
   
   

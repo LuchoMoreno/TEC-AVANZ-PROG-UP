@@ -2,7 +2,7 @@ require('mongoose');
 
 const Horse = require('../models/horseModel');
 
-const { BadRequestError } = require('../utils/errors');
+const { BadRequestError, NotFoundError } = require('../utils/errors');
 
 
 const getHorse = async (id) => {
@@ -36,25 +36,17 @@ const addHorse = async (name, age, sex, weight, breed) => {
 
 
 const deleteHorse = async (id) => {
-  try {
 
-    // Buscar el caballo por su ID
+    // Verifica si el caballo existe
     const horse = await Horse.findById(id);
-
-    if (!horse) {
-      return false; // Si el caballo no existe, retornar false
+    if (!horse) { 
+        throw new NotFoundError("No existe ningun caballo registrado con ese ID.");
     }
 
     // Eliminar el caballo
     await Horse.findByIdAndDelete(id);
 
     return true;
-
-  } catch (error) {
-    console.error("Error al eliminar el caballo:", error);
-    
-    return false;
-  }
 };
 
 

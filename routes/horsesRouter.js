@@ -47,16 +47,12 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
     try{
 
       const result = await HorseController.deleteHorse(req.params.id);
-
-      if(result){
-        res.status(200).send("Caballo eliminado de la base de datos.")
-      }else{
-        res.status(404).send("El caballo no existe.")
-      }  
-  
-    }catch(error){
-      res.status(500).send("Error")
-    }
+      res.status(200).send("Caballo eliminado de la base de datos.");
+      
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
   });
   
   

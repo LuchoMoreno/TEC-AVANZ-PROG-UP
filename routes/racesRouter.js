@@ -76,6 +76,22 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
       res.status(500).send("Error al obtener la lista de carreras. Intente más tarde.");
   }
 });
+
+
+  // Endpoint para obtener los caballos y payout de una carrera específica
+  racesRouter.get("/races/:id/horses", async (req, res) => {
+    const raceId = req.params.id;
+
+    try {
+        const horsePayouts = await RaceController.getRaceHorsePayouts(raceId);
+        res.status(200).json(horsePayouts);
+        
+    } catch (error) {
+        console.error(error);
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).send(error.message);
+    }
+  });
   
 
   module.exports = racesRouter;

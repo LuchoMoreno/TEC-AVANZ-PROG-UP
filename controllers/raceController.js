@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Race = require('../models/raceModel');
 const Horse = require('../models/horseModel');
+const Bet = require('../models/betModel');
 
 const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
 
@@ -79,4 +80,38 @@ const checkTotalRaces = async () => {
   return totalRaces;
 }
 
-module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces }
+
+const getRaceHorsePayouts = async (raceId) => {
+  // Verifica que la carrera exista
+  const race = await Race.findById(raceId);
+  if (!race) {
+      const error = new Error("Carrera no encontrada.");
+      error.statusCode = 404;
+      throw error;
+  }
+
+  // Encuentra todas las apuestas relacionadas con esta carrera
+  const bets = await Bet.find({ race: raceId }).populate('horse', 'name');
+
+  // Agrupa las apuestas por caballo y calcula el payout
+  const horsePayouts = {};
+  bets.forEach(bet => {
+      const horseId = bet.horse._id;
+      if (!horsePayouts[horseId]) {
+          horsePayouts[horseId] = {
+              name: bet.horse.name,
+              betCount: 0,
+              basePayout: bet.amount, // toma el amount original
+          };
+      }
+      horsePayouts[horseId].betCount += 1;
+  });
+
+  // Calcula el payout ajustado en función de la cantidad de apuestas
+  return Object.values(horsePayouts).map(horse => ({
+      horse: horse.name,
+      payout: horse.basePayout * (2 / (1 + horse.betCount)) // Fórmula de ejemplo
+  }));
+};
+
+module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces, getRaceHorsePayouts }

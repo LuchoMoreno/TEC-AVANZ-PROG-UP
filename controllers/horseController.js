@@ -1,8 +1,8 @@
-require('mongoose');
+const mongoose = require('mongoose');
 
 const Horse = require('../models/horseModel');
 
-const { BadRequestError, NotFoundError } = require('../utils/errors');
+const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
 
 
 const getHorse = async (id) => {
@@ -37,6 +37,11 @@ const addHorse = async (name, age, sex, weight, breed) => {
 
 const deleteHorse = async (id) => {
 
+    // Verifica si la id del caballo es valida
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw new NotAcceptableError("El ID del caballo proporcionado no es válido.");
+    }
+    
     // Verifica si el caballo existe
     const horse = await Horse.findById(id);
     if (!horse) { 

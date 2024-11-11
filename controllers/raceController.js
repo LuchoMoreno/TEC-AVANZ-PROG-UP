@@ -1,9 +1,9 @@
-require('mongoose');
+const mongoose = require('mongoose');
 
 const Race = require('../models/raceModel');
 const Horse = require('../models/horseModel');
 
-const { BadRequestError } = require('../utils/errors');
+const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
 
 
 
@@ -52,13 +52,16 @@ const addRace = async (name, location, startDate, distance, prize, horses) => {
 
 
 const deleteRace = async (id) => {
-  try {
 
-    // Buscar la carrera por su ID
+    // Verifica si la id de la carrera es valida
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
+    }
+
+    // Verifica si la carrera existe
     const race = await Race.findById(id);
-
-    if (!race) {
-      return false; // Si la carrera no existe, retornar false
+    if (!race) { 
+        throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
     }
 
     // Eliminar la carrera
@@ -66,11 +69,6 @@ const deleteRace = async (id) => {
 
     return true;
 
-  } catch (error) {
-    console.error("Error al eliminar la carrera:", error);
-    
-    return false;
-  }
 };
 
 

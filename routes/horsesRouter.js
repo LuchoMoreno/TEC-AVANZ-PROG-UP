@@ -12,7 +12,7 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
     
     // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
-        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Unauthorized
     }
     
     let name = req.body.name;
@@ -41,7 +41,7 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
     
     // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
-        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Unauthorized
     }
   
     try{

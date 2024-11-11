@@ -12,7 +12,7 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
     
     // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
-        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Unauthorized
     }
     
     let name = req.body.name;
@@ -42,21 +42,18 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
     
     // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
-        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Unauthorized
     }
   
     try{
   
       const result = await RaceController.deleteRace(req.params.id);
-      if(result){
-        res.status(200).send("Carrera borrada")
-      }else{
-        res.status(404).send("La carrera no existe.")
-      }  
+      res.status(200).send("Carrera borrada con éxito.")
   
-    }catch(error){
-      res.status(500).send("Error al borrar la carrera.")
-    }
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
   });
   
   

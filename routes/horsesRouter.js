@@ -22,20 +22,14 @@ horsesRouter.post("/horses", Middleware.verify, async (req,res) =>{
     let breed = req.body.breed;
 
     try{
+      
       const result = await HorseController.addHorse(name,age,sex,weight,breed);
-      
-      if(result){
-        res.status(201).send("Caballo agregado correctamente"); // 201
-      }
-      else
-      {
-        res.status(404).send("Ha ocurrido un error al agregar el caballo"); // 404
-      }
-      
-    }catch(error){
-      console.log(error);
-      res.status(500).send("Error al agregar el caballo"); //500
-    }  
+      res.status(201).send("Caballo agregado correctamente"); 
+    
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  }   
     
   });
   

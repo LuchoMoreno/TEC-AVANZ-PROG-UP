@@ -2,6 +2,8 @@ require('mongoose');
 
 const Horse = require('../models/horseModel');
 
+const { BadRequestError } = require('../utils/errors');
+
 
 const getHorse = async (id) => {
 
@@ -19,8 +21,12 @@ const getAllHorses = async (limit, offset) => {
 
 const addHorse = async (name, age, sex, weight, breed) => {
 
-  // Se utiliza object shorthand en JavaScript, ya que los nombres de las variables y las propiedades son iguales
-  // const horse = new Horse({ name: name, age: age, sex: sex, weight: weight, breed: breed, wins: wins});
+  // Verificar si ya existe un caballo con el mismo nombre
+  const existingHorse = await Horse.findOne({ name });
+  if (existingHorse) { 
+      throw new BadRequestError("Ya existe un caballo con ese nombre.");
+  }
+
   const horse = new Horse({name, age, sex, weight, breed});
 
   let savedHorse = await horse.save();

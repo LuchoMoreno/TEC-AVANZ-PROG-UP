@@ -1,5 +1,7 @@
-require('mongoose');
+const mongoose = require('mongoose');
 const User = require('../models/userModel');
+
+const { NotFoundError, NotAcceptableError } = require('../utils/errors');
 
 
 const getAllUsers = async (limit,offset) => {
@@ -67,6 +69,17 @@ const editRoles = async(roles,id) => {
 
 
 const deleteUser = async(id) => {
+
+    // Verifica si el ID del usuario es valido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new NotAcceptableError("El ID de usuario proporcionado no es válido.");
+      }
+      
+    // Verifica si el usuario existe
+    const userExist = await User.findById(id);
+    if (!userExist) { 
+        throw new NotFoundError("No existe ningun usuario registrado con ese ID.");
+    }
 
     const result = await User.findByIdAndDelete(id);
 

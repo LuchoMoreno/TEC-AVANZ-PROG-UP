@@ -1,4 +1,4 @@
-require('mongoose');
+const mongoose = require('mongoose');
 
 const Bet = require('../models/betModel');
 const Horse = require('../models/horseModel');

@@ -1,4 +1,3 @@
-require('mongoose');
 const Usr = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 

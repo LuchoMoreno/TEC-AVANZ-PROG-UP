@@ -120,7 +120,7 @@ usersRouter.delete("/users/:id", Middleware.verify, async (req, res) => {
 
   let userRole = req.token.roles;
     
-    // Verificar si el rol del usuario no es 'admin'
+  // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
         return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
   }
@@ -128,15 +128,12 @@ usersRouter.delete("/users/:id", Middleware.verify, async (req, res) => {
   try {
 
     const result = await UserController.deleteUser(req.params.id);
-    if (result) {
-      res.status(200).send("Usuario borrado.")
-    } else {
-      res.status(404).send("No se ha podido eliminar el usuario.")
-    }
-
-  } catch (error) {
-    res.status(500).send("Error")
-  }
+    res.status(200).send("Usuario borrado con éxito")
+   
+  }catch (error) {
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).send(error.message);
+} 
 });
 
 

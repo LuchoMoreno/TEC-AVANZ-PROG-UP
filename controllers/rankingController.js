@@ -1,5 +1,3 @@
-require('mongoose');
-
 const Ranking = require('../models/rankingModel');
 
 const getTopHorses = async () => {

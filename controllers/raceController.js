@@ -94,6 +94,11 @@ const getRaceHorsePayouts = async (raceId) => {
       throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
   }
 
+  // Validar que la carrera esté en estado "Programada"
+  if (race.status !== "Programada") {
+      throw new BadRequestError(`Solo se pueden revisar pagos en carreras programadas. Esta carrera se encuentra ${race.status}`); // Si no está programada, lanzo excepción.
+  }
+
   // Encuentra todas las apuestas de esta carrera y agrupa por caballo
   const bets = await Bet.find({ race: raceId });
   const betsByHorse = bets.reduce((acc, bet) => {

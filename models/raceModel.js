@@ -18,8 +18,8 @@ const raceSchema = new Schema({
 	prize:{ type: String, required:true
     },
 
-	winner:{ type: String, default: null
-	},
+    winner: { type: Schema.Types.ObjectId, ref: 'horses', default: null // Valor por defecto hasta que se defina el ganador
+    },
 
     // Programada, En curso, Finalizada.
     status: { type: String, required:true, default: 'Programada'

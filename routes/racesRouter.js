@@ -87,7 +87,28 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
         res.status(200).json(horsePayouts);
         
     } catch (error) {
-        console.error(error);
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).send(error.message);
+    }
+  });
+
+
+  // Endpoint para iniciar una carrera
+  racesRouter.post("/races/start/:id", Middleware.verify, async (req, res) => {
+
+    const userRole = req.token.roles;
+    const raceId = req.params.id;
+
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido. Solo los administradores pueden iniciar una carrera."); // 401 Unauthorized
+    }
+
+    try {
+        const horsePayouts = await RaceController.startRace(raceId);
+        res.status(200).json(horsePayouts);
+        
+    } catch (error) {
         const statusCode = error.statusCode || 500;
         res.status(statusCode).send(error.message);
     }

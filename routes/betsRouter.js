@@ -17,7 +17,7 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
 
       const result = await BetController.addBet(user,race,horse,amount);
       console.log(result);
-      res.status(201).send(`Carrera cargada correctamente. Los posibles ingresos de la apuesta seran: ${result.savedBet.payout}`); // 201
+      res.status(201).send(`Apuesta cargada correctamente. Los posibles ingresos de la apuesta seran: ${result.savedBet.payout}`); // 201
       
     }catch (error) {
       const statusCode = error.statusCode || 500;
@@ -72,11 +72,12 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
           result: results,
           totalCount: totalBets
       });
-  } catch (error) {
-      res.status(500).send("Error al obtener la lista de apuestas. Intente más tarde.");
-  }
-});
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
 
+  });
 
   // Get de todas las apuestas (ESTE METODO ES PÚBLICO) 
   betsRouter.get("/bets/me", Middleware.verify, async (req, res) => {

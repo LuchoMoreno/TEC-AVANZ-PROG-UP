@@ -51,7 +51,15 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
   
   
   // Get de todas las apuestas (ESTE METODO ES PÚBLICO) 
-  betsRouter.get("/bets", async (req, res) => {
+  betsRouter.get("/bets", Middleware.verify, async (req, res) => {
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
+    }
+
     let limit = parseInt(req.query.limit) || 10;
     let offset = parseInt(req.query.offset) || 0;
 

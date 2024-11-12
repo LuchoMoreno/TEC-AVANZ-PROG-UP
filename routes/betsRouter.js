@@ -29,6 +29,13 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
 
   // Elimino una apuesta
   betsRouter.delete("/bets/:id", Middleware.verify, async(req,res) =>{
+
+    let userRole = req.token.roles;
+    
+    // Verificar si el rol del usuario no es 'admin'
+    if (userRole !== 'admin') {
+        return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido. Solo los administradores pueden eliminar apuestas."); // 401 Unauthorized
+    }
   
     try{
 

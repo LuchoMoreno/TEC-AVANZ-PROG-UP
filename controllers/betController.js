@@ -23,6 +23,11 @@ const getAllBets = async (limit, offset) => {
 
 const addBet = async (user, race, horse, amount) => {
 
+  if (!mongoose.Types.ObjectId.isValid(horse) || !mongoose.Types.ObjectId.isValid(race))
+  {
+    throw new NotAcceptableError("Alguno de los IDS brindados son inválidos.");
+  }
+
   // Buscar la apuesta por su ID
   const horseParam = await Horse.findById(horse);
   const raceParam = await Race.findById(race);

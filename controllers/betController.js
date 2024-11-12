@@ -82,7 +82,6 @@ const deleteBet = async (id) => {
 
 };
 
-
 const checkTotalBets = async () => {
 
   const totalBets = await Bet.countDocuments();
@@ -90,4 +89,23 @@ const checkTotalBets = async () => {
   return totalBets;
 }
 
-module.exports = { getBet, getAllBets, addBet, deleteBet, checkTotalBets }
+// Obtiene las apuestas del usuario con solo los detalles de la carrera
+
+// * DATO IMPORTANTE *//
+// populate con select: Al usar .populate({ path: "race", select: "..." }), se especifica 
+// solo los campos necesarios dentro del objeto race, evitando campos adicionales como createdAt, updatedAt, etc.
+
+// Exclusión del campo horse: La línea .select("-horse") 
+// asegura que el campo horse de cada apuesta no sea parte de los resultados principales.
+
+const getUserBets = async (userId) => {
+  return await Bet.find({ user: userId })
+    .populate({
+      path: "race",
+      select: "name location startDate distance prize winner status horses", // Selecciona solo estos campos dentro de race
+    })
+    .select("race amount payout status betDate") // Incluye solo los campos deseados de bet
+    .exec();
+};
+
+module.exports = { getBet, getAllBets, addBet, deleteBet, checkTotalBets, getUserBets}

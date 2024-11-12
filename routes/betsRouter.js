@@ -76,6 +76,23 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
       res.status(500).send("Error al obtener la lista de apuestas. Intente más tarde.");
   }
 });
-  
+
+
+  // Get de todas las apuestas (ESTE METODO ES PÚBLICO) 
+  betsRouter.get("/bets/me", Middleware.verify, async (req, res) => {
+
+    let userId = req.token.userId;
+
+    try {
+      // Obtiene las apuestas del usuario con paginación
+      const results = await BetController.getUserBets(userId);
+      res.status(200).json(results);
+
+    }catch (error) {
+      const statusCode = error.statusCode || 500;
+      res.status(statusCode).send(error.message);
+  } 
+
+  });
 
   module.exports = betsRouter;

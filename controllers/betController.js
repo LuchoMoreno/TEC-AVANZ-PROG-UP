@@ -40,6 +40,11 @@ const addBet = async (user, race, horse, amount) => {
     throw new NotFoundError("Carrera no encontrada"); // Si la carrera no existe lanzo excepcion.
   }
 
+  // Validar que la carrera esté en estado "Programada"
+  if (raceParam.status !== "Programada") {
+    throw new BadRequestError(`Solo se pueden realizar apuestas en carreras programadas. Esta carrera se encuentra ${raceParam.status}`); // Si no está programada, lanzo excepción.
+  }
+
   // Calcula el número de apuestas existentes para el mismo caballo en la misma carrera
   const existingBets = await Bet.find({ race: race, horse: horse });
   const betCount = existingBets.length;

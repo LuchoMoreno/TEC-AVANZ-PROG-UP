@@ -92,27 +92,22 @@ usersRouter.put("/users/:id", Middleware.verify, async (req, res) => {
 
   let userRole = req.token.roles;
     
-    // Verificar si el rol del usuario no es 'admin'
+  // Verificar si el rol del usuario no es 'admin'
     if (userRole !== 'admin') {
         return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido"); // 401 Forbidden
   }
 
-  const user = { _id: req.params.id, ...req.body };
-  // {_id: req.params.id, name: req.body.name, lastname, email }
+  const user = { _id: req.params.id, ...req.body }; // {_id: req.params.id, name: req.body.name, lastname, email }
 
-  console.log(user);
   try {
 
     const result = await UserController.editUser(user);
-    if (result) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).send("El usuario no existe.");
-    }
-  } catch (error) {
-    res.status(500).send("Error");
-  }
+    res.status(200).send("Usuario modificado con éxito")
 
+  }catch (error) {
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).send(error.message);
+} 
 });
 
 

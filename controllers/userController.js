@@ -67,6 +67,17 @@ const addUser = async (name,lastname,email,isActive,password) => {
 
 const editUser = async(user) => {
 
+    // Verifica si el ID del usuario es valido
+    if (!mongoose.Types.ObjectId.isValid(user._id)) {
+        throw new NotAcceptableError("El ID de usuario proporcionado no es válido.");
+      }
+      
+    // Verifica si el usuario existe
+    const userExist = await User.findById(user._id);
+    if (!userExist) { 
+        throw new NotFoundError("No existe ningun usuario registrado con ese ID.");
+    }
+
     const result = await User.findByIdAndUpdate(user._id,user,{new:true});
 
     return result;

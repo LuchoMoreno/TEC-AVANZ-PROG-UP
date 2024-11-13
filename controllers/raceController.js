@@ -159,7 +159,7 @@ const startRace = async (raceId) => {
 
     // Validar que la fecha actual sea posterior a la fecha de inicio (startDate) de la carrera
     if (currentDate <= race.startDate) {
-      throw new BadRequestError(`La carrera no puede ser iniciada antes de su fecha de inicio programada. Su fecha de inicio es: ${race.startDate}`);
+      throw new BadRequestError(`La carrera no puede ser iniciada antes de su fecha de inicio programada. Su fecha de inicio es (UTC): ${race.startDate.toISOString()}`);
     }
 
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Bet = require('../models/betModel');
 const Horse = require('../models/horseModel');
 const Race = require('../models/raceModel');
+const User = require('../models/userModel');
 
 const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
 
@@ -29,6 +30,7 @@ const addBet = async (user, race, horse, amount) => {
   }
 
   // Buscar la apuesta por su ID
+  const userParam = await User.findById(user);
   const horseParam = await Horse.findById(horse);
   const raceParam = await Race.findById(race);
 
@@ -44,6 +46,20 @@ const addBet = async (user, race, horse, amount) => {
   if (raceParam.status !== "Programada") {
     throw new BadRequestError(`Solo se pueden realizar apuestas en carreras programadas. Esta carrera se encuentra ${raceParam.status}`); // Si no está programada, lanzo excepción.
   }
+
+  // Validar que el usuario tenga suficiente dinero para realizar la apuesta
+  if (userParam.money < amount) {
+    throw new BadRequestError(`En este momento no tienes suficiente dinero para realizar la apuesta. Recarga tu saldo y vuelve a intentarlo. Saldo actual: $${userParam.money}`);
+  }
+
+   // Validar que el monto sea un número positivo
+  if (amount <= 0) {
+    throw new BadRequestError("El monto de la apuesta debe ser un número positivo mayor a 0. Vuelve a intentarlo");
+  }
+
+  // Descuenta el dinero del usuario
+  userParam.money -= amount;
+  await userParam.save(); // Guarda el usuario actualizado con el dinero descontado
 
   // Calcula el número de apuestas existentes para el mismo caballo en la misma carrera
   const existingBets = await Bet.find({ race: race, horse: horse });

@@ -129,6 +129,8 @@ const getRaceHorsePayouts = async (raceId) => {
 const startRace = async (raceId) => {
 
     const race = await Race.findById(raceId);
+    const currentDate = new Date();
+
 
     // Paso 1 . Verificaciones:
 
@@ -145,6 +147,11 @@ const startRace = async (raceId) => {
     // Validar que la carrera esté en estado "Programada"
     if (race.status !== "Programada") {
       throw new BadRequestError(`Solo se pueden iniciar carreras programadas. Esta carrera se encuentra ${race.status}`); // Si no está programada, lanzo excepción.
+    }
+
+    // Validar que la fecha actual sea posterior a la fecha de inicio (startDate) de la carrera
+    if (currentDate <= race.startDate) {
+      throw new BadRequestError(`La carrera no puede ser iniciada antes de su fecha de inicio programada. Su fecha de inicio es: ${race.startDate}`);
     }
 
     // Paso 2. Seleccionar un caballo ganador aleatoriamente

@@ -174,44 +174,39 @@ const startRace = async (raceId) => {
     const bets = await Bet.find({ race: raceId });
 
 
-    // Paso 4. Inicializar un objeto para almacenar los pagos a los usuarios
+    // Paso 4: Acumular pagos por usuario
     const payouts = {};
 
-
-    // Paso 5. Recorrer las apuestas y actualizar el estado de cada una
+    // Paso 5: Procesar cada apuesta
     for (let bet of bets) {
-      if (String(bet.horse) === String(winnerHorse)) {
-        // Marcar la apuesta como ganada
-        bet.status = 'Ganada';
+        if (String(bet.horse) === String(winnerHorse)) {
+            // Marcar la apuesta como ganada
+            bet.status = 'Ganada';
 
-        // Calcular el pago y actualizar la cuenta del usuario
-        const payoutAmount = bet.amount + bet.payout;
+            // Calcular el monto del pago, asegurando que sean números
+            const payoutAmount = Number(bet.amount) + Number(bet.payout);
 
-        // Sumar el pago al usuario -- La idea es asegurarse de que si el usuario no tiene pagos anteriores, se inicie con 0 para luego sumarle el payoutAmount correctamente.
-        payouts[bet.user] = (payouts[bet.user] || 0) + payoutAmount;
-
-      } else {
-        // Marcar la apuesta como perdida
-        bet.status = 'Perdida';
-      }
-      await bet.save();
+            // Acumular el pago para el usuario
+            payouts[bet.user] = (payouts[bet.user] || 0) + payoutAmount;
+        } else {
+            // Marcar la apuesta como perdida
+            bet.status = 'Perdida';
+        }
+        await bet.save();
     }
 
-    // Paso 6. Realizar los pagos a los usuarios ganadores
+    // Paso 6: Realizar los pagos a los usuarios ganadores
     for (let userId in payouts) {
-      
-      // Incrementa el balance del usuario
-      await User.findByIdAndUpdate(userId, { $inc: { money: payouts[userId] } });
+        await User.findByIdAndUpdate(userId, { $inc: { money: payouts[userId] } });
     }
 
-    // 7. Retornar los resultados
+    // Paso 7: Retornar los resultados
     return {
-      raceId: raceId,
-      winnerHorse: winnerHorse,
-      payouts: payouts,
-      message: 'Carrera finalizada. Todas las apuestas fueron procesadas.'
+        raceId: raceId,
+        winnerHorse: winnerHorse,
+        payouts: payouts,
+        message: 'Carrera finalizada. Todas las apuestas fueron procesadas.'
     };
-
 };
 
 module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces, getRaceHorsePayouts, startRace }

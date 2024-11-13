@@ -17,7 +17,7 @@ racesRouter.post("/races", Middleware.verify, async (req,res) =>{
     
     let name = req.body.name;
     let location = req.body.location;
-    let startDate = new Date(req.body.startDate); // Convierte la fecha a tipo Date
+    let startDate = req.body.startDate;
     let distance = req.body.distance;
     let prize = req.body.prize;
     let horses = req.body.horses;

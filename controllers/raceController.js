@@ -25,8 +25,12 @@ const getAllRaces = async (limit, offset) => {
 
 const addRace = async (name, location, startDate, distance, prize, horses) => {
 
+  // Esto se utiliza porque el servidor probablemente está configurado en UTC, mientras que las fechas enviadas son en UTC-3 (Argentina)
+  const nowTime = new Date();
+  nowTime.setHours(nowTime.getHours() - 3);
+  
   // Validar que la fecha de inicio sea en el futuro
-  if (startDate <= new Date()) {
+  if (new Date(startDate) <= nowTime) {
     throw new BadRequestError("La fecha de inicio debe ser en el futuro.");
   }
 
@@ -131,8 +135,10 @@ const getRaceHorsePayouts = async (raceId) => {
 const startRace = async (raceId) => {
 
     const race = await Race.findById(raceId);
+  
+    // Esto se utiliza porque el servidor probablemente está configurado en UTC, mientras que las fechas enviadas son en UTC-3 (Argentina)
     const currentDate = new Date();
-
+    currentDate.setHours(currentDate.getHours() - 3);
 
     // Paso 1 . Verificaciones:
 
@@ -195,7 +201,7 @@ const startRace = async (raceId) => {
     for (let userId in payouts) {
       
       // Incrementa el balance del usuario
-      await User.findByIdAndUpdate(userId, { $inc: { balance: payouts[userId] } });
+      await User.findByIdAndUpdate(userId, { $inc: { money: payouts[userId] } });
     }
 
     // 7. Retornar los resultados

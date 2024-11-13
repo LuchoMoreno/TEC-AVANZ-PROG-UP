@@ -74,7 +74,7 @@ const addBet = async (user, race, horse, amount) => {
 
   let savedBet = await bet.save();
 
-  return { savedBet };
+  return { savedBet, userParam};
 }
 
 

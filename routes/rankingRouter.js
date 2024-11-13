@@ -7,14 +7,14 @@ const RankingController = require('../controllers/rankingController.js');
   rankingRouter.get("/ranking", async (req,res) =>{
    
     try{
-        
         const topHorses = await RankingController.getTopHorses();
         res.status(200).json(topHorses);
 
-    }catch(error){
-        res.status(500).send("Error. Intente más tarde: " + error)
-    }
-
+    }catch (error) {
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).send(error.message);
+    } 
+    
 });
   
 module.exports = rankingRouter;

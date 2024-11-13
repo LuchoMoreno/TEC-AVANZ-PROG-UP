@@ -88,17 +88,18 @@ const checkTotalRaces = async () => {
 
 const getRaceHorsePayouts = async (raceId) => {
 
-  const race = await Race.findById(raceId).populate('horses', 'name');
-
   // Verifica si el id de la carrera es valido
   if (!mongoose.Types.ObjectId.isValid(raceId)) {
       throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
   }
 
+  const race = await Race.findById(raceId).populate('horses', 'name');
+
   // Verifica que la carrera exista
   if (!race) {
       throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
   }
+
 
   // Validar que la carrera esté en estado "Programada"
   if (race.status !== "Programada") {
@@ -134,6 +135,11 @@ const getRaceHorsePayouts = async (raceId) => {
 
 const startRace = async (raceId) => {
 
+    // Verifica si el id de la carrera es valido
+    if (!mongoose.Types.ObjectId.isValid(raceId)) {
+        throw new NotAcceptableError("No se pudo iniciar la carrera. El ID de la carrera proporcionada no es válido.");
+    }
+
     const race = await Race.findById(raceId);
   
     // Esto se utiliza porque el servidor probablemente está configurado en UTC, mientras que las fechas enviadas son en UTC-3 (Argentina)
@@ -142,14 +148,9 @@ const startRace = async (raceId) => {
 
     // Paso 1 . Verificaciones:
 
-    // Verifica si el id de la carrera es valido
-    if (!mongoose.Types.ObjectId.isValid(raceId)) {
-      throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
-    }
-
     // Verifica que la carrera exista
     if (!race) {
-      throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
+      throw new NotFoundError("No se pudo iniciar la carrera. No existe ninguna carrera registrada con ese ID.");
     }
 
     // Validar que la carrera esté en estado "Programada"

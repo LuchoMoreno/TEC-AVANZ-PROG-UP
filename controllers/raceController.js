@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Race = require('../models/raceModel');
 const Horse = require('../models/horseModel');
 const Bet = require('../models/betModel');
+const User = require('../models/userModel');
 
 const { BadRequestError, NotFoundError, NotAcceptableError } = require('../utils/errors');
 
@@ -155,17 +156,21 @@ const startRace = async (raceId) => {
       throw new BadRequestError(`La carrera no puede ser iniciada antes de su fecha de inicio programada. Su fecha de inicio es: ${race.startDate}`);
     }
 
-    // Paso 2. Seleccionar un caballo ganador aleatoriamente
+
+    // Paso 2. Seleccionar un caballo ganador aleatoriamente y guardamos la carrera en 'Finalizada'.
     const winnerHorse = race.horses[Math.floor(Math.random() * race.horses.length)];
     race.winner = winnerHorse;
     race.status = 'Finalizada';
     await race.save();
 
+
     // Paso 3. Obtener todas las apuestas relacionadas con esta carrera
     const bets = await Bet.find({ race: raceId });
 
+
     // Paso 4. Inicializar un objeto para almacenar los pagos a los usuarios
     const payouts = {};
+
 
     // Paso 5. Recorrer las apuestas y actualizar el estado de cada una
     for (let bet of bets) {
@@ -174,9 +179,9 @@ const startRace = async (raceId) => {
         bet.status = 'Ganada';
 
         // Calcular el pago y actualizar la cuenta del usuario
-        const payoutAmount = bet.amount * bet.payout;
-        
-        // Sumar el pago al usuario
+        const payoutAmount = bet.amount + bet.payout;
+
+        // Sumar el pago al usuario -- La idea es asegurarse de que si el usuario no tiene pagos anteriores, se inicie con 0 para luego sumarle el payoutAmount correctamente.
         payouts[bet.user] = (payouts[bet.user] || 0) + payoutAmount;
 
       } else {
@@ -188,9 +193,9 @@ const startRace = async (raceId) => {
 
     // Paso 6. Realizar los pagos a los usuarios ganadores
     for (let userId in payouts) {
-      await User.findByIdAndUpdate(userId, {
-        $inc: { balance: payouts[userId] } // Incrementa el balance del usuario
-      });
+      
+      // Incrementa el balance del usuario
+      await User.findByIdAndUpdate(userId, { $inc: { balance: payouts[userId] } });
     }
 
     // 7. Retornar los resultados

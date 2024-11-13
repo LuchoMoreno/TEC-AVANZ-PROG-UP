@@ -29,7 +29,7 @@ const addRace = async (name, location, startDate, distance, prize, horses) => {
     throw new BadRequestError("La fecha de inicio debe ser en el futuro.");
   }
 
-  // Validar que la fecha de inicio sea en el futuro
+  // El campo de caballos está vacío.
   if (!Array.isArray(horses) || horses.length == 0) {
       throw new BadRequestError("El campo de caballos está vacío.");
   }
@@ -83,13 +83,14 @@ const checkTotalRaces = async () => {
 
 const getRaceHorsePayouts = async (raceId) => {
 
-  // Verifica si la id de la carrera es valida
+  const race = await Race.findById(raceId).populate('horses', 'name');
+
+  // Verifica si el id de la carrera es valido
   if (!mongoose.Types.ObjectId.isValid(raceId)) {
       throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
   }
 
   // Verifica que la carrera exista
-  const race = await Race.findById(raceId).populate('horses', 'name');
   if (!race) {
       throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
   }
@@ -123,4 +124,75 @@ const getRaceHorsePayouts = async (raceId) => {
   return horsePayouts;
 };
 
-module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces, getRaceHorsePayouts }
+
+
+const startRace = async (raceId) => {
+
+    const race = await Race.findById(raceId);
+
+    // Paso 1 . Verificaciones:
+
+    // Verifica si el id de la carrera es valido
+    if (!mongoose.Types.ObjectId.isValid(raceId)) {
+      throw new NotAcceptableError("El ID de la carrera proporcionada no es válido.");
+    }
+
+    // Verifica que la carrera exista
+    if (!race) {
+      throw new NotFoundError("No existe ninguna carrera registrada con ese ID.");
+    }
+
+    // Validar que la carrera esté en estado "Programada"
+    if (race.status !== "Programada") {
+      throw new BadRequestError(`Solo se pueden iniciar carreras programadas. Esta carrera se encuentra ${race.status}`); // Si no está programada, lanzo excepción.
+    }
+
+    // Paso 2. Seleccionar un caballo ganador aleatoriamente
+    const winnerHorse = race.horses[Math.floor(Math.random() * race.horses.length)];
+    race.winner = winnerHorse;
+    race.status = 'Finalizada';
+    await race.save();
+
+    // Paso 3. Obtener todas las apuestas relacionadas con esta carrera
+    const bets = await Bet.find({ race: raceId });
+
+    // Paso 4. Inicializar un objeto para almacenar los pagos a los usuarios
+    const payouts = {};
+
+    // Paso 5. Recorrer las apuestas y actualizar el estado de cada una
+    for (let bet of bets) {
+      if (String(bet.horse) === String(winnerHorse)) {
+        // Marcar la apuesta como ganada
+        bet.status = 'Ganada';
+
+        // Calcular el pago y actualizar la cuenta del usuario
+        const payoutAmount = bet.amount * bet.payout;
+        
+        // Sumar el pago al usuario
+        payouts[bet.user] = (payouts[bet.user] || 0) + payoutAmount;
+
+      } else {
+        // Marcar la apuesta como perdida
+        bet.status = 'Perdida';
+      }
+      await bet.save();
+    }
+
+    // Paso 6. Realizar los pagos a los usuarios ganadores
+    for (let userId in payouts) {
+      await User.findByIdAndUpdate(userId, {
+        $inc: { balance: payouts[userId] } // Incrementa el balance del usuario
+      });
+    }
+
+    // 7. Retornar los resultados
+    return {
+      raceId: raceId,
+      winnerHorse: winnerHorse,
+      payouts: payouts,
+      message: 'Carrera iniciada y apuestas procesadas'
+    };
+
+};
+
+module.exports = { getRace, getAllRaces, addRace, deleteRace, checkTotalRaces, getRaceHorsePayouts, startRace }

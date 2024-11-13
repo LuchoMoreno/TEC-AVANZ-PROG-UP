@@ -55,15 +55,15 @@ usersRouter.get("/users", Middleware.verify, async (req, res) => {
 usersRouter.get("/users/me", Middleware.verify, async (req, res) => {
   let userId = req.token.userId;
   try {
-    const results = await UserController.getUser(userId);
+    const results = await UserController.getUserMe(userId);
     res.status(200).json(results);
 
-  } catch (error) {
-    res.status(500).send("Error. Intente más tarde (CHECK)")
-  }
+  }catch (error) {
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).send(error.message);
+} 
 
 });
-
 
 // Obtengo un usuario por ID
 usersRouter.get("/users/:id", Middleware.verify, async (req, res) => {
@@ -79,9 +79,10 @@ usersRouter.get("/users/:id", Middleware.verify, async (req, res) => {
     const results = await UserController.getUser(req.params.id);
     res.status(200).json(results);
 
-  } catch (error) {
-    res.status(500).send("Error. Intente más tarde (CHECK)")
-  }
+  }catch (error) {
+    const statusCode = error.statusCode || 500;
+    res.status(statusCode).send(error.message);
+} 
 
 });
 

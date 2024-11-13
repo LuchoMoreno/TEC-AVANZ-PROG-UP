@@ -6,16 +6,29 @@ const { NotFoundError, NotAcceptableError } = require('../utils/errors');
 
 const getAllUsers = async (limit,offset) => {
 
-    //const users = await User.find({}).limit(limit).skip(offset).populate('bets');
     const users = await User.find({}).limit(limit).skip(offset);
     return users;
 }
 
 const getUser = async(id) => {
+    
+    // Verifica si el ID del usuario es valido
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new NotAcceptableError("El ID de usuario proporcionado no es válido.");
+      }
+      
+    // Verifica si el usuario existe
+    const userExist = await User.findById(id);
+    if (!userExist) { 
+        throw new NotFoundError("No existe ningun usuario registrado con ese ID.");
+    }
 
-    //const user = await User.findById(id).populate('bets');
-    const user = await User.findById(id);
+    return userExist;
+}
 
+const getUserMe = async(id) => {
+
+    const user = await User.findById(id).select('email name lastname money'); // Solo incluye los campos deseados
     return user;
 }
 
@@ -87,4 +100,4 @@ const deleteUser = async(id) => {
 }
 
 
-module.exports = { addUser, getAllUsers, getUser, editUser, editRoles, deleteUser}
+module.exports = { addUser, getAllUsers, getUser, getUserMe, editUser, editRoles, deleteUser}

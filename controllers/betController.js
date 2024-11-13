@@ -82,6 +82,14 @@ const deleteBet = async (id) => {
 
 };
 
+const deleteAllBets = async () => {
+  
+  await Bet.deleteMany({}); // Elimina todas las apuestas de la colección
+
+  return true;
+
+};
+
 const checkTotalBets = async () => {
 
   const totalBets = await Bet.countDocuments();
@@ -108,4 +116,4 @@ const getUserBets = async (userId) => {
     .exec();
 };
 
-module.exports = { getBet, getAllBets, addBet, deleteBet, checkTotalBets, getUserBets}
+module.exports = { getBet, getAllBets, addBet, deleteBet, deleteAllBets, checkTotalBets, getUserBets}

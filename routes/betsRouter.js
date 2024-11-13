@@ -48,6 +48,29 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
   } 
 
   });
+
+  
+    // Elimino todas las apuestas
+    betsRouter.delete("/allBets", Middleware.verify, async(req,res) =>{
+
+      let userRole = req.token.roles;
+      
+      // Verificar si el rol del usuario no es 'admin'
+      if (userRole !== 'admin') {
+          return res.status(401).send("Acceso denegado. El usuario no tiene el perfil requerido. Solo los administradores pueden eliminar todas las apuestas."); // 401 Unauthorized
+      }
+    
+      try{
+
+        const result = await BetController.deleteAllBets();
+        res.status(200).send("Todas las apuestas fueron borradas con éxito.")
+        
+      }catch (error) {
+        const statusCode = error.statusCode || 500;
+        res.status(statusCode).send(error.message);
+    } 
+  
+  });
   
   
   // Get de todas las apuestas (ESTE METODO ES PÚBLICO) 

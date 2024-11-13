@@ -167,6 +167,11 @@ const startRace = async (raceId) => {
     const winnerHorse = race.horses[Math.floor(Math.random() * race.horses.length)];
     race.winner = winnerHorse;
     race.status = 'Finalizada';
+    
+    // Incrementar el contador de victorias para el caballo ganador
+    await Horse.findByIdAndUpdate(winnerHorse, { $inc: { wins: 1 } });
+
+    // Guardar la carrera con el estado actualizado
     await race.save();
 
 

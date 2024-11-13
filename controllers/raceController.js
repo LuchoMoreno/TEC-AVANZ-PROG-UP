@@ -112,11 +112,12 @@ const getRaceHorsePayouts = async (raceId) => {
   const horsePayouts = race.horses.map(horse => {
       const betCount = betsByHorse[horse._id]?.length || 0;
       const basePayout = 100; // Asigna un valor base para el cálculo de payout
-      const payout = basePayout * (2 / (1 + betCount)); // Ajuste de payout
+      const payout = (basePayout * (2 / (1 + betCount))).toFixed(2); // Ajuste de payout y se redondea a 2 decimales
+      const payoutPercentage = `${payout}%`; // Convierte el valor a porcentaje
 
       return {
           horse: horse.name,
-          payout,
+          payoutPercentage,
           betCount,
       };
   });
@@ -197,7 +198,7 @@ const startRace = async (raceId) => {
       raceId: raceId,
       winnerHorse: winnerHorse,
       payouts: payouts,
-      message: 'Carrera iniciada y apuestas procesadas'
+      message: 'Carrera finalizada. Todas las apuestas fueron procesadas.'
     };
 
 };

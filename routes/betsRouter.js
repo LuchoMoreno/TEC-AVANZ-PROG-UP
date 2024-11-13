@@ -17,7 +17,7 @@ betsRouter.post("/bets", Middleware.verify, async (req,res) =>{
 
       const result = await BetController.addBet(user,race,horse,amount);
       console.log(result);
-      res.status(201).send(`Apuesta cargada correctamente. Los posibles ingresos de la apuesta seran: ${result.savedBet.payout}`); // 201
+      res.status(201).send(`Apuesta cargada correctamente. Los posibles ingresos de la apuesta seran: $${result.savedBet.payout}`); // 201
       
     }catch (error) {
       const statusCode = error.statusCode || 500;

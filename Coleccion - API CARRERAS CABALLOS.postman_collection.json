@@ -1,0 +1,1703 @@
+{
+	"info": {
+		"_postman_id": "701daef2-2a79-43d8-94dc-304d2a25f4f3",
+		"name": "3 - API CARRERAS CABALLOS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34461364"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "postAuth (ADMIN)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"lucho.moreno@live.com\",\r\n  \"password\": \"1234\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postAuth (USER)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"sabrina.perez@live.com\",\r\n  \"password\": \"1234\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postAuth (USER 2)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"jose.gonzalez@live.com\",\r\n  \"password\": \"1234\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "postUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Jose\",\r\n  \"lastname\": \"Gonzalez\",\r\n  \"email\": \"jose.gonzalez@live.com\",\r\n  \"isActive\": true,\r\n  \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6626a2b3e7274c31230656fa",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/users/6731765098ee105ec38e0e8b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"6731765098ee105ec38e0e8b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "deleteUser - ID Inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/users/6731765098ee105ec38e0000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"6731765098ee105ec38e0000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "deleteUser - ID Inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/users/6731765098ee105ec38e",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"6731765098ee105ec38e"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "putUser (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "/*{\r\n    \"name\": \"Sabrina\",\r\n    \"lastname\": \"Perez\",\r\n    \"money\": 1200\r\n}*/\r\n\r\n{\r\n    \"money\": 5000\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/users/673441e080a380454ab4cecd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"673441e080a380454ab4cecd"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "putUser - ID Inexistente",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "/*{\r\n    \"name\": \"Sabrina\",\r\n    \"lastname\": \"Perez\",\r\n    \"money\": 1200\r\n}*/\r\n\r\n{\r\n    \"money\": 5000\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/673441e080a380454ab40000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"673441e080a380454ab40000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "putUser - ID Inválida",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "/*{\r\n    \"name\": \"Sabrina\",\r\n    \"lastname\": \"Perez\",\r\n    \"money\": 1200\r\n}*/\r\n\r\n{\r\n    \"money\": 5000\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/users/673441e080a380454ab40",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"673441e080a380454ab40"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "getUser ME",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsers (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/users/6710287cd3805eb3c115cb11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"6710287cd3805eb3c115cb11"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getUserById - ID Inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users/6710287cd3805eb3c1100000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"6710287cd3805eb3c1100000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getUserById - ID Inválido",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/users/6710287cd3805eb3c115cb",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"users",
+										"6710287cd3805eb3c115cb"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "HORSES",
+			"item": [
+				{
+					"name": "postHorse (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sans\",\r\n  \"age\": \"3\",\r\n  \"sex\": \"Male\",\r\n  \"weight\": \"300\",\r\n  \"breed\": \"Mustang\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/horses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"horses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "postHorse - Caballo duplicado",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Sans\",\r\n  \"age\": \"3\",\r\n  \"sex\": \"Male\",\r\n  \"weight\": \"300\",\r\n  \"breed\": \"Mustang\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/horses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"horses"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "deleteHorse (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6626a2b3e7274c31230656fa",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/horses/673046d9ceb5f03e94ce2e51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"horses",
+								"673046d9ceb5f03e94ce2e51"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "deleteHorse - ID Inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/horses/673046d9ceb5f03e94ceeeee",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"horses",
+										"673046d9ceb5f03e94ceeeee"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "deleteHorse - ID Inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/horses/673046d9ceb5f03e94ce",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"horses",
+										"673046d9ceb5f03e94ce"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "getHorses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/horses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"horses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RACES",
+			"item": [
+				{
+					"name": "postRaces",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Carrera Ultimo Tramo\",\r\n    \"location\": \"Hipódromo de San Isidro\",\r\n    \"startDate\": \"2024-12-16T13:00:00Z\",\r\n    \"distance\": \"1500m\",\r\n    \"prize\": \"50000\",\r\n    \"horses\": [\r\n        \"67159a686b2d2f11b6c51c8d\",\r\n        \"67159a6f6b2d2f11b6c51c8f\",\r\n        \"67159a756b2d2f11b6c51c91\",\r\n        \"67159a8b6b2d2f11b6c51c99\",\r\n        \"67159a856b2d2f11b6c51c97\"\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/races",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "postRaces - ID Inválido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Gran Premio Nacional\",\r\n    \"location\": \"Hipódromo de Palermo\",\r\n    \"startDate\": \"2024-12-16T13:00:00Z\",\r\n    \"distance\": \"2400m\",\r\n    \"prize\": \"50000\",\r\n    \"horses\": [\r\n        \"67159a686b2d2f11b6c51000\",\r\n        \"67159a6f6b2d2f11b6c51c8f\",\r\n        \"64a8bfe7b1234abcd567e8f3\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/races",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postRaces - ID Inválido 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Gran Premio Nacional\",\r\n    \"location\": \"Hipódromo de Palermo\",\r\n    \"startDate\": \"2024-12-16T13:00:00Z\",\r\n    \"distance\": \"2400m\",\r\n    \"prize\": \"50000\",\r\n    \"horses\": [\r\n        \"67159a686b2d2f11b6c51c8d\",\r\n        \"67159a6f6b2d2f11b6c51c8f\",\r\n        \"64a8bfe7b1234abcd567e8f3\"\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/races",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postRaces - Fecha no futura",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Carrera Ultimo Tramo\",\r\n    \"location\": \"Hipódromo de San Isidro\",\r\n    \"startDate\": \"2023-12-16T13:00:00Z\",\r\n    \"distance\": \"1500m\",\r\n    \"prize\": \"50000\",\r\n    \"horses\": [\r\n        \"67159a686b2d2f11b6c51c8d\",\r\n        \"67159a6f6b2d2f11b6c51c8f\",\r\n        \"67159a756b2d2f11b6c51c91\",\r\n        \"67159a8b6b2d2f11b6c51c99\",\r\n        \"67159a856b2d2f11b6c51c97\"\r\n    ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/races",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "postRaces (TESTING)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Carrera Testing\",\r\n    \"location\": \"Lugar testing\",\r\n    \"startDate\": \"2024-11-13T16:30:00Z\",\r\n    \"distance\": \"1500m\",\r\n    \"prize\": \"50000\",\r\n    \"horses\": [\r\n        \"67159a686b2d2f11b6c51c8d\",\r\n        \"67159a6f6b2d2f11b6c51c8f\"\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/races",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRace",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6626a2b3e7274c31230656fa",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/races/6734fde4d0c12605fd95b1d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races",
+								"6734fde4d0c12605fd95b1d2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "deleteRace - ID Inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/races/673050b63a95ad1aa70946dc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"673050b63a95ad1aa70946dc"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "deleteRace - ID Inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/races/673050b63a95ad1aa70946d",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"673050b63a95ad1aa70946d"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "getRaces",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/races",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRaceWithHorsePayout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/races/6734fde4d0c12605fd95b1d2/horses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races",
+								"6734fde4d0c12605fd95b1d2",
+								"horses"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getRaceWithHorsePayout - ID Inexistente",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api//races/6732e9a5d2f2de44b78aaaaa/horses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"",
+										"races",
+										"6732e9a5d2f2de44b78aaaaa",
+										"horses"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getRaceWithHorsePayout - ID Inválido",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/6732e9a5d2f2de44b78b07/horses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"6732e9a5d2f2de44b78b07",
+										"horses"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getRaceWithHorsePayout - Carrera finalizada",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/673195852461da9df574f767/horses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"673195852461da9df574f767",
+										"horses"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "StartRace",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/races/start/6734fde4d0c12605fd95b1d2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"races",
+								"start",
+								"6734fde4d0c12605fd95b1d2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "getRaceWithHorsePayout - ID Inexistente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/start/6732e9a5d2f2de44b78aaaaa",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"start",
+										"6732e9a5d2f2de44b78aaaaa"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getRaceWithHorsePayout - ID Inválido",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/start/6732e9a5d2f2de44b78",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"start",
+										"6732e9a5d2f2de44b78"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getRaceWithHorsePayout - Carrera finalizada",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/start/673195852461da9df574f767",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"start",
+										"673195852461da9df574f767"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "getRaceWithHorsePayout - Carrera programada",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/races/start/6732e9a5d2f2de44b78b0737",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"races",
+										"start",
+										"6732e9a5d2f2de44b78b0737"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "BETS",
+			"item": [
+				{
+					"name": "postBets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"race\": \"6734fde4d0c12605fd95b1d2\",\r\n    \"horse\": \"67159a686b2d2f11b6c51c8d\",\r\n    \"amount\": \"10000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/bets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bets"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "postBets - Carrera Finalizada",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"race\": \"673195852461da9df574f767\",\r\n    \"horse\": \"67159a686b2d2f11b6c51c8d\",\r\n    \"amount\": \"1500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/bets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postBets - Carrera no existe",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"race\": \"6732e9a5d2f2de44b78b0000\",\r\n    \"horse\": \"67159a686b2d2f11b6c51c8d\",\r\n    \"amount\": \"1500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/bets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postBets - Caballo no existe",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"race\": \"6732e9a5d2f2de44b78b0737\",\r\n    \"horse\": \"67159a686b2d2f11b6c51000\",\r\n    \"amount\": \"1500\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/bets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postBets - Sin dinero suficiente",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"race\": \"6732e9a5d2f2de44b78b0737\",\r\n    \"horse\": \"67159a686b2d2f11b6c51c8d\",\r\n    \"amount\": \"150000\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/bets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "postBets - Dinero negativo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"race\": \"6732e9a5d2f2de44b78b0737\",\r\n    \"horse\": \"67159a686b2d2f11b6c51c8d\",\r\n    \"amount\": \"-100\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/bets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "deleteBet (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6626a2b3e7274c31230656fa",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/bets/6733c51c49ac9c0d3e42365c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bets",
+								"6733c51c49ac9c0d3e42365c"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "deleteBet - ID Inexistente",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/bets/6733c51c49ac9c0d3e423000",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets",
+										"6733c51c49ac9c0d3e423000"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "deleteBet - ID Inválido",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "id",
+										"value": "6626a2b3e7274c31230656fa",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/api/bets/6733c51c49ac9c0d3e423",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"bets",
+										"6733c51c49ac9c0d3e423"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "getBets (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/bets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBets ME",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/bets/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"bets",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAllBets (admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "6626a2b3e7274c31230656fa",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/allBets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"allBets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RANKING",
+			"item": [
+				{
+					"name": "getRanking",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/ranking",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ranking"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imx1Y2hvLm1vcmVub0BsaXZlLmNvbSIsImlhdCI6MTcxODE1OTYwOCwiZXhwIjoxNzE4MTYzMjA4fQ.BGUXsoNv8k_hJKOLQORCFO5AnzVtEhGR2CCEbDPKueQ"
+		}
+	]
+}

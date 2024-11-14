@@ -22,7 +22,8 @@ describe('Bet Controller', () => {
     jest.clearAllMocks(); // Limpia los mocks después de cada prueba
   });
 
-  
+
+  // Metodo para agregar una apuesta y el resultado sea el esperado. En caso de error avisar que es invalido.
   describe('addBet', () => {
     test('Debería agregar una apuesta correctamente', async () => {
       // Mock de usuario, caballo y carrera
@@ -59,6 +60,8 @@ describe('Bet Controller', () => {
     });
   });
 
+  
+  // Metodo para retornar una apuesta por su ID, en caso que la misma sea valida.
   describe('getBet', () => {
     test('Debería retornar una apuesta por su ID', async () => {
       Bet.findById = jest.fn().mockResolvedValue({ _id: 'betId', amount: 100 });
